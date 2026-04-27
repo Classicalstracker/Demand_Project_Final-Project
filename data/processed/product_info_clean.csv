@@ -1,0 +1,26 @@
+Product_ID,Product_Name,Category,Sub_Category,Gender,Color,Launch_Season,Launch_Date,MSRP,Wholesale_Price
+TE001,Backpack 1,Gear,Backpacks,Women,Blue,Winter,2022-10-19,139,83.21
+TE002,Backpack 2,Gear,Backpacks,Men,Blue,Spring,2022-01-20,191,114.19
+TE003,Backpack 3,Gear,Backpacks,Men,Red,Summer,2022-02-21,104,72.57
+TE004,Pant 4,Apparel,Pants,Unisex,Green,Spring,2022-12-22,149,102.9
+TE005,Accessorie 5,Gear,Accessories,Women,Green,Spring,2022-04-15,59,37.76
+TE006,T-Shirt 6,Apparel,T-Shirts,Unisex,Red,Winter,2022-05-28,127,87.77
+TE007,Backpack 7,Gear,Backpacks,Men,Blue,Spring,2022-09-08,96,58.09
+TE008,Accessorie 8,Gear,Accessories,Men,Black,Winter,2022-01-02,155,104.59
+TE009,Pant 9,Apparel,Pants,Unisex,Black,Fall,2022-06-17,117,61.55
+TE010,Hiking Boot 10,Footwear,Hiking Boots,Women,Green,Summer,2022-11-21,62,41.4
+TE011,T-Shirt 11,Apparel,T-Shirts,Unisex,Green,Summer,2022-10-20,140,73.25
+TE012,Accessorie 12,Gear,Accessories,Unisex,Blue,Spring,2022-01-19,121,61.58
+TE013,Hiking Boot 13,Footwear,Hiking Boots,Unisex,Gray,Spring,2022-11-05,80,49.94
+TE014,Backpack 14,Gear,Backpacks,Unisex,Black,Summer,2022-06-19,97,60.02
+TE015,Hiking Boot 15,Footwear,Hiking Boots,Men,Brown,Winter,2022-12-11,162,103.45
+TE016,Accessorie 16,Gear,Accessories,Unisex,Brown,Spring,2022-03-02,128,73.25
+TE017,T-Shirt 17,Apparel,T-Shirts,Women,Brown,Summer,2022-01-08,147,91.41
+TE018,Accessorie 18,Gear,Accessories,Unisex,Blue,Fall,2022-11-08,63,32.65
+TE019,T-Shirt 19,Apparel,T-Shirts,Unisex,Brown,Fall,2022-02-15,73,48.69
+TE020,T-Shirt 20,Apparel,T-Shirts,Men,Black,Fall,2022-09-05,94,55.08
+TE021,Hiking Boot 21,Footwear,Hiking Boots,Women,Green,Spring,2022-07-17,85,43.36
+TE022,Hiking Boot 22,Footwear,Hiking Boots,Women,Brown,Summer,2022-10-24,153,87.45
+TE023,T-Shirt 23,Apparel,T-Shirts,Women,Red,Spring,2022-11-10,136,71.91
+TE024,Jacket 24,Apparel,Jackets,Unisex,Red,Spring,2022-07-13,161,104.71
+TE025,Trail Shoe 25,Footwear,Trail Shoes,Unisex,Gray,Spring,2022-12-12,179,97.81

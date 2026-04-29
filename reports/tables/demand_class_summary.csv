@@ -1,0 +1,2 @@
+Demand_Class,Product_Count,ADI_Mean,ADI_Min,ADI_Max,CV2_Mean,CV2_Min,CV2_Max,Mean_Demand_Avg,Mean_Demand_Min,Mean_Demand_Max
+Smooth,25,1.0,1.0,1.0,0.042,0.026,0.089,56.455,20.625,97.019

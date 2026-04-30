@@ -1,0 +1,11 @@
+Phase,Notebook,Status,Time(sec),Error
+1,01_Business_Understanding.ipynb,PASS,5.7,
+2,02_Data_Understanding.ipynb,PASS,3.5,
+3,03_Preprocessing.ipynb,PASS,3.0,
+4,04_EDA.ipynb,PASS,16.9,
+5,05_Merge_Analysis.ipynb,PASS,10.5,
+6,06_Demand_Classification.ipynb,PASS,6.5,
+7,07_Feature_Engineering.ipynb,PASS,6.9,
+8,08_Model_Training.ipynb,PASS,128.5,
+9,09_Cross_Validation.ipynb,PASS,7.6,
+10,10_Forecasting.ipynb,PASS,16.2,

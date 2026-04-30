@@ -9,8 +9,9 @@ plt.style.use('seaborn-v0_8')
 sns.set_palette("husl")
 
 # Paths
-REPORTS_CHARTS = Path('../reports/charts')
-REPORTS_TABLES = Path('../reports/tables')
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+REPORTS_CHARTS = PROJECT_ROOT / 'reports' / 'charts'
+REPORTS_TABLES = PROJECT_ROOT / 'reports' / 'tables'
 
 def sales_by_category(df):
     """Analyze sales by Category"""

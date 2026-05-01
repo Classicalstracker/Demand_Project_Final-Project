@@ -1,11 +1,219 @@
 Phase,Notebook,Status,Time(sec),Error
-1,01_Business_Understanding.ipynb,PASS,6.8,
-2,02_Data_Understanding.ipynb,PASS,8.2,
-3,03_Preprocessing.ipynb,PASS,10.8,
-4,04_EDA.ipynb,PASS,32.5,
-5,05_Merge_Analysis.ipynb,PASS,22.6,
-6,06_Demand_Classification.ipynb,PASS,15.2,
-7,07_Feature_Engineering.ipynb,PASS,13.7,
-8,08_Model_Training.ipynb,PASS,181.9,
-9,09_Cross_Validation.ipynb,PASS,9.7,
-10,10_Forecasting.ipynb,PASS,17.0,
+1,01_Business_Understanding.ipynb,PASS,3.8,
+2,02_Data_Understanding.ipynb,PASS,5.6,
+3,03_Preprocessing.ipynb,PASS,3.8,
+4,04_EDA.ipynb,PASS,16.1,
+5,05_Merge_Analysis.ipynb,PASS,11.2,
+6,06_Demand_Classification.ipynb,PASS,5.4,
+7,07_Feature_Engineering.ipynb,PASS,5.7,
+8,08_Model_Training.ipynb,FAIL,4.3,"Traceback (most recent call last):
+  File ""D:\Final Project\src\run_notebooks.py"", line 54, in run_notebook
+    ep.preprocess(nb, {""metadata"": {""path"": str(PROJECT_ROOT)}})
+  File ""D:\Final Project\venv\Lib\site-packages\nbconvert\preprocessors\execute.py"", line 103, in preprocess
+    self.preprocess_cell(cell, resources, index)
+  File ""D:\Final Project\venv\Lib\site-packages\nbconvert\preprocessors\execute.py"", line 124, in preprocess_cell
+    cell = self.execute_cell(cell, index, store_history=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""D:\Final Project\venv\Lib\site-packages\jupyter_core\utils\__init__.py"", line 165, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\welcome\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py"", line 687, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File ""D:\Final Project\venv\Lib\site-packages\nbclient\client.py"", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File ""D:\Final Project\venv\Lib\site-packages\nbclient\client.py"", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import sys
+from pathlib import Path
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import TimeSeriesSplit
+import warnings
+warnings.filterwarnings('ignore')
+
+# Resolve project root whether executed from repo root or notebooks/ via nbconvert
+PROJECT_ROOT = Path.cwd().resolve()
+if not (PROJECT_ROOT / 'src').exists():
+    PROJECT_ROOT = PROJECT_ROOT.parent.resolve()
+
+src_path = str(PROJECT_ROOT / 'src')
+if src_path not in sys.path:
+    sys.path.insert(0, src_path)
+
+from models import (
+    prepare_timeseries_data, train_baseline_models, train_ml_models,
+    tune_random_forest, tune_gradient_boosting, save_model
+)
+from evaluate import evaluate_model, compare_models, get_feature_importance
+
+# Set style
+sns.set_style('whitegrid')
+plt.rcParams['figure.figsize'] = (14, 6)
+
+print('Imports complete')
+------------------
+
+
+[31m---------------------------------------------------------------------------[39m
+[31mModuleNotFoundError[39m                       Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[1][39m[32m, line 7[39m
+[32m      3[39m [38;5;28;01mimport[39;00m pandas [38;5;28;01mas[39;00m pd
+[32m      4[39m [38;5;28;01mimport[39;00m numpy [38;5;28;01mas[39;00m np
+[32m      5[39m [38;5;28;01mimport[39;00m matplotlib.pyplot [38;5;28;01mas[39;00m plt
+[32m      6[39m [38;5;28;01mimport[39;00m seaborn [38;5;28;01mas[39;00m sns
+[32m----> [39m[32m7[39m [38;5;28;01mfrom[39;00m sklearn.model_selection [38;5;28;01mimport[39;00m TimeSeriesSplit
+[32m      8[39m [38;5;28;01mimport[39;00m warnings
+[32m      9[39m warnings.filterwarnings([33m'ignore'[39m)
+[32m     10[39m 
+
+[31mModuleNotFoundError[39m: No module named 'sklearn'
+
+"
+9,09_Cross_Validation.ipynb,FAIL,2.9,"Traceback (most recent call last):
+  File ""D:\Final Project\src\run_notebooks.py"", line 54, in run_notebook
+    ep.preprocess(nb, {""metadata"": {""path"": str(PROJECT_ROOT)}})
+  File ""D:\Final Project\venv\Lib\site-packages\nbconvert\preprocessors\execute.py"", line 103, in preprocess
+    self.preprocess_cell(cell, resources, index)
+  File ""D:\Final Project\venv\Lib\site-packages\nbconvert\preprocessors\execute.py"", line 124, in preprocess_cell
+    cell = self.execute_cell(cell, index, store_history=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""D:\Final Project\venv\Lib\site-packages\jupyter_core\utils\__init__.py"", line 165, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\welcome\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py"", line 687, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File ""D:\Final Project\venv\Lib\site-packages\nbclient\client.py"", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File ""D:\Final Project\venv\Lib\site-packages\nbclient\client.py"", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import sys
+import pickle
+from pathlib import Path
+
+import pandas as pd
+from sklearn.base import clone
+from sklearn.model_selection import TimeSeriesSplit
+
+# Resolve project root whether executed from repo root or notebooks/ via nbconvert
+PROJECT_ROOT = Path.cwd().resolve()
+if not (PROJECT_ROOT / 'src').exists():
+    PROJECT_ROOT = PROJECT_ROOT.parent.resolve()
+
+src_path = str(PROJECT_ROOT / 'src')
+if src_path not in sys.path:
+    sys.path.insert(0, src_path)
+
+from models import prepare_timeseries_data, get_feature_names
+from evaluate import evaluate_model
+
+DATA_PROCESSED = PROJECT_ROOT / 'data' / 'processed'
+DATA_OUTPUTS = PROJECT_ROOT / 'data' / 'outputs'
+REPORTS_TABLES = PROJECT_ROOT / 'reports' / 'tables'
+MODELS_DIR = PROJECT_ROOT / 'models'
+
+REPORTS_TABLES.mkdir(parents=True, exist_ok=True)
+
+print('Setup complete')
+------------------
+
+
+[31m---------------------------------------------------------------------------[39m
+[31mModuleNotFoundError[39m                       Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[1][39m[32m, line 6[39m
+[32m      2[39m [38;5;28;01mimport[39;00m pickle
+[32m      3[39m [38;5;28;01mfrom[39;00m pathlib [38;5;28;01mimport[39;00m Path
+[32m      4[39m 
+[32m      5[39m [38;5;28;01mimport[39;00m pandas [38;5;28;01mas[39;00m pd
+[32m----> [39m[32m6[39m [38;5;28;01mfrom[39;00m sklearn.base [38;5;28;01mimport[39;00m clone
+[32m      7[39m [38;5;28;01mfrom[39;00m sklearn.model_selection [38;5;28;01mimport[39;00m TimeSeriesSplit
+[32m      8[39m 
+[32m      9[39m [38;5;66;03m# Resolve project root whether executed from repo root or notebooks/ via nbconvert[39;00m
+
+[31mModuleNotFoundError[39m: No module named 'sklearn'
+
+"
+10,10_Forecasting.ipynb,FAIL,6.7,"Traceback (most recent call last):
+  File ""D:\Final Project\src\run_notebooks.py"", line 54, in run_notebook
+    ep.preprocess(nb, {""metadata"": {""path"": str(PROJECT_ROOT)}})
+  File ""D:\Final Project\venv\Lib\site-packages\nbconvert\preprocessors\execute.py"", line 103, in preprocess
+    self.preprocess_cell(cell, resources, index)
+  File ""D:\Final Project\venv\Lib\site-packages\nbconvert\preprocessors\execute.py"", line 124, in preprocess_cell
+    cell = self.execute_cell(cell, index, store_history=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""D:\Final Project\venv\Lib\site-packages\jupyter_core\utils\__init__.py"", line 165, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""C:\Users\welcome\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py"", line 687, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File ""D:\Final Project\venv\Lib\site-packages\nbclient\client.py"", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File ""D:\Final Project\venv\Lib\site-packages\nbclient\client.py"", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import sys
+import pickle
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Resolve project root whether executed from repo root or notebooks/ via nbconvert
+PROJECT_ROOT = Path.cwd().resolve()
+if not (PROJECT_ROOT / 'src').exists():
+    PROJECT_ROOT = PROJECT_ROOT.parent.resolve()
+
+src_path = str(PROJECT_ROOT / 'src')
+if src_path not in sys.path:
+    sys.path.insert(0, src_path)
+
+from models import get_feature_names
+
+DATA_PROCESSED = PROJECT_ROOT / 'data' / 'processed'
+DATA_OUTPUTS = PROJECT_ROOT / 'data' / 'outputs'
+REPORTS_CHARTS = PROJECT_ROOT / 'reports' / 'charts'
+MODELS_DIR = PROJECT_ROOT / 'models'
+
+DATA_OUTPUTS.mkdir(parents=True, exist_ok=True)
+REPORTS_CHARTS.mkdir(parents=True, exist_ok=True)
+
+sns.set_style('whitegrid')
+plt.rcParams['figure.figsize'] = (14, 6)
+
+print('Setup complete')
+------------------
+
+
+[31m---------------------------------------------------------------------------[39m
+[31mModuleNotFoundError[39m                       Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[1][39m[32m, line 19[39m
+[32m     15[39m src_path = str(PROJECT_ROOT / [33m'src'[39m)
+[32m     16[39m [38;5;28;01mif[39;00m src_path [38;5;28;01mnot[39;00m [38;5;28;01min[39;00m sys.path:
+[32m     17[39m     sys.path.insert([32m0[39m, src_path)
+[32m     18[39m 
+[32m---> [39m[32m19[39m [38;5;28;01mfrom[39;00m models [38;5;28;01mimport[39;00m get_feature_names
+[32m     20[39m 
+[32m     21[39m DATA_PROCESSED = PROJECT_ROOT / [33m'data'[39m / [33m'processed'[39m
+[32m     22[39m DATA_OUTPUTS = PROJECT_ROOT / [33m'data'[39m / [33m'outputs'[39m
+
+[36mFile [39m[32mD:\Final Project\src\models.py:17[39m
+[32m     14[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01mpathlib[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m Path
+[32m     15[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01mtyping[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m Tuple, Dict, List, Optional
+[32m---> [39m[32m17[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01msklearn[39;00m[34;01m.[39;00m[34;01mlinear_model[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m LinearRegression
+[32m     18[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01msklearn[39;00m[34;01m.[39;00m[34;01mensemble[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m RandomForestRegressor, GradientBoostingRegressor
+[32m     19[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01msklearn[39;00m[34;01m.[39;00m[34;01mmodel_selection[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m TimeSeriesSplit, GridSearchCV
+
+[31mModuleNotFoundError[39m: No module named 'sklearn'
+
+"

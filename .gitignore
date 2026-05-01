@@ -1,0 +1,15 @@
+venv/
+__pycache__/
+.ipynb_checkpoints/
+*.pyc
+
+data/raw/
+data/outputs/
+
+models/*.pkl
+
+reports/charts/
+reports/tables/
+
+*.xlsx
+*.csv

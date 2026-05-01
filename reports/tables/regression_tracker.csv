@@ -1,11 +1,11 @@
 Phase,Notebook,Status,Time(sec),Error
-1,01_Business_Understanding.ipynb,PASS,6.2,
-2,02_Data_Understanding.ipynb,PASS,5.6,
-3,03_Preprocessing.ipynb,PASS,5.3,
-4,04_EDA.ipynb,PASS,19.2,
-5,05_Merge_Analysis.ipynb,PASS,14.9,
-6,06_Demand_Classification.ipynb,PASS,8.9,
-7,07_Feature_Engineering.ipynb,PASS,7.8,
-8,08_Model_Training.ipynb,FAIL,5.6,An error occurred while executing the following cell:
-9,09_Cross_Validation.ipynb,FAIL,3.9,An error occurred while executing the following cell:
-10,10_Forecasting.ipynb,FAIL,5.1,An error occurred while executing the following cell:
+1,01_Business_Understanding.ipynb,PASS,6.8,
+2,02_Data_Understanding.ipynb,PASS,8.2,
+3,03_Preprocessing.ipynb,PASS,10.8,
+4,04_EDA.ipynb,PASS,32.5,
+5,05_Merge_Analysis.ipynb,PASS,22.6,
+6,06_Demand_Classification.ipynb,PASS,15.2,
+7,07_Feature_Engineering.ipynb,PASS,13.7,
+8,08_Model_Training.ipynb,PASS,181.9,
+9,09_Cross_Validation.ipynb,PASS,9.7,
+10,10_Forecasting.ipynb,PASS,17.0,

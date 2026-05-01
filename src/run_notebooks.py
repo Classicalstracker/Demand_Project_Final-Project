@@ -5,6 +5,7 @@ import asyncio
 import gc
 import sys
 import time
+import traceback
 from pathlib import Path
 
 import nbformat
@@ -57,10 +58,10 @@ def run_notebook(notebook_path: Path, timeout: int = 1800):
 
         elapsed = round(time.time() - start, 1)
         return "PASS", "", elapsed
-    except Exception as exc:
+    except Exception:
         elapsed = round(time.time() - start, 1)
-        error = str(exc).splitlines()[0][:300]
-        return "FAIL", error, elapsed
+        error_msg = traceback.format_exc()
+        return "FAIL", error_msg, elapsed
     finally:
         gc.collect()
 
@@ -91,7 +92,8 @@ def print_tracker(tracker) -> None:
         print("\nFailures:")
         for phase, notebook, status, _elapsed, error in tracker:
             if status == "FAIL":
-                print(f"Phase {phase} | {notebook} | {error}")
+                print(f"\nPhase {phase} | {notebook}")
+                print(error)
 
 
 def main() -> int:

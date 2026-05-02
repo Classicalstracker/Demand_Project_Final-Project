@@ -1,22 +1,18 @@
-"""Quality-control regression runner for notebook phases 1-10."""
-
-import csv
-import asyncio
-import gc
-import sys
-import time
-import traceback
 from pathlib import Path
-
+import time
 import nbformat
 from nbconvert.preprocessors import ExecutePreprocessor
-from traitlets import TraitError
-
-
+import pandas as pd
+import traceback
+# -----------------------------
+# PROJECT PATHS
+# -----------------------------
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 NOTEBOOK_DIR = PROJECT_ROOT / "notebooks"
-CSV_PATH = PROJECT_ROOT / "reports" / "tables" / "regression_tracker.csv"
-
+OUTPUT_PATH = PROJECT_ROOT / "reports" / "tables" / "regression_tracker.csv"
+# -----------------------------
+# NOTEBOOK EXECUTION ORDER
+# -----------------------------
 NOTEBOOKS = [
     (1, "01_Business_Understanding.ipynb"),
     (2, "02_Data_Understanding.ipynb"),
@@ -28,91 +24,83 @@ NOTEBOOKS = [
     (8, "08_Model_Training.ipynb"),
     (9, "09_Cross_Validation.ipynb"),
     (10, "10_Forecasting.ipynb"),
+    (11, "11_Final_Insights.ipynb"),
 ]
-
-if sys.platform == "win32":
-    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-
-
-def create_execute_preprocessor(timeout: int = 1800) -> ExecutePreprocessor:
-    """Create ExecutePreprocessor, preferring kernel_name=None when supported."""
-    try:
-        return ExecutePreprocessor(timeout=timeout, kernel_name=None)
-    except TraitError:
-        return ExecutePreprocessor(timeout=timeout)
-
-
-def run_notebook(notebook_path: Path, timeout: int = 1800):
-    """Run a notebook and return (status, error_message, elapsed_time)."""
+# -----------------------------
+# RUN SINGLE NOTEBOOK
+# -----------------------------
+def run_notebook(nb_path):
     start = time.time()
 
     try:
-        with notebook_path.open("r", encoding="utf-8") as f:
+        with open(nb_path, "r", encoding="utf-8") as f:
             nb = nbformat.read(f, as_version=4)
 
-        ep = create_execute_preprocessor(timeout=timeout)
+        ep = ExecutePreprocessor(
+            timeout=1800,  # 30 minutes
+            allow_errors=False
+        )
+
+        # IMPORTANT: Run from project root
         ep.preprocess(nb, {"metadata": {"path": str(PROJECT_ROOT)}})
 
-        with notebook_path.open("w", encoding="utf-8") as f:
-            nbformat.write(nb, f)
-
-        elapsed = round(time.time() - start, 1)
+        elapsed = round(time.time() - start, 2)
         return "PASS", "", elapsed
+
     except Exception:
-        elapsed = round(time.time() - start, 1)
+        elapsed = round(time.time() - start, 2)
         error_msg = traceback.format_exc()
         return "FAIL", error_msg, elapsed
-    finally:
-        gc.collect()
-
-
-def save_tracker(tracker, csv_path: Path) -> None:
-    csv_path.parent.mkdir(parents=True, exist_ok=True)
-
-    with csv_path.open("w", newline="", encoding="utf-8") as f:
-        writer = csv.writer(f)
-        writer.writerow(["Phase", "Notebook", "Status", "Time(sec)", "Error"])
-        writer.writerows(tracker)
-
-
-def print_tracker(tracker) -> None:
-    print("\n## PHASE NOTEBOOK REGRESSION TRACKER\n")
-    print(f"{'Phase':<5} | {'Notebook':<32} | {'Status':<6} | {'Time(sec)':<9}")
-    print("-" * 62)
-    for phase, notebook, status, elapsed, _error in tracker:
-        print(f"{phase:<5} | {notebook:<32} | {status:<6} | {elapsed:<9}")
-
-    passed = sum(1 for row in tracker if row[2] == "PASS")
-    failed = sum(1 for row in tracker if row[2] == "FAIL")
-
-    print(f"\nTotal PASS: {passed}")
-    print(f"Total FAIL: {failed}")
-
-    if failed:
-        print("\nFailures:")
-        for phase, notebook, status, _elapsed, error in tracker:
-            if status == "FAIL":
-                print(f"\nPhase {phase} | {notebook}")
-                print(error)
-
-
-def main() -> int:
+# -----------------------------
+# MAIN EXECUTION
+# -----------------------------
+def main():
     tracker = []
 
-    for phase, notebook_name in NOTEBOOKS:
-        notebook_path = NOTEBOOK_DIR / notebook_name
-        if not notebook_path.exists():
-            tracker.append((phase, notebook_name, "FAIL", 0.0, "Notebook not found"))
+    print("\n## PHASE NOTEBOOK REGRESSION TRACKER\n")
+    print(f"{'Phase':<5} | {'Notebook':<30} | {'Status':<6} | {'Time(sec)':<10}")
+    print("-" * 65)
+
+    for phase, nb_name in NOTEBOOKS:
+        nb_path = NOTEBOOK_DIR / nb_name
+
+        if not nb_path.exists():
+            print(f"{phase:<5} | {nb_name:<30} | FAIL   | 0.0")
+            tracker.append((phase, nb_name, "FAIL", 0.0, "File not found"))
             continue
 
-        status, error, elapsed = run_notebook(notebook_path, timeout=1800)
-        tracker.append((phase, notebook_name, status, elapsed, error))
+        status, err, elapsed = run_notebook(nb_path)
 
-    save_tracker(tracker, CSV_PATH)
-    print_tracker(tracker)
+        print(f"{phase:<5} | {nb_name:<30} | {status:<6} | {elapsed:<10}")
 
-    return 0 if all(row[2] == "PASS" for row in tracker) else 1
+        tracker.append((phase, nb_name, status, elapsed, err))
+
+    # -----------------------------
+    # SUMMARY
+    # -----------------------------
+    df = pd.DataFrame(tracker, columns=["Phase", "Notebook", "Status", "Time", "Error"])
+
+    total_pass = (df["Status"] == "PASS").sum()
+    total_fail = (df["Status"] == "FAIL").sum()
+
+    print("\nSummary:\n")
+    print(f"Total PASS: {total_pass}")
+    print(f"Total FAIL: {total_fail}")
+
+    if total_fail > 0:
+        print("\nFailures:")
+        for _, row in df[df["Status"] == "FAIL"].iterrows():
+            print(f"Phase {row['Phase']} | {row['Notebook']}")
+            print(row["Error"][:500])  # show first 500 chars only
+
+    # -----------------------------
+    # SAVE TRACKER
+    # -----------------------------
+    OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    df.to_csv(OUTPUT_PATH, index=False)
+
+    print(f"\nSaved tracker:\n{OUTPUT_PATH}")
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    main()
